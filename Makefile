@@ -18,8 +18,8 @@ createimg:
 		--cap-add=ALL \
 		-v /lib/modules:/lib/modules \
 		-e SNX_SERVER="${VPN_HOST}" \
-		-e SNX_PASSWORD=\
-		-v `pwd`/cert/certificate.p12:/certificate.p12 \
+		-e SNX_PASSWORD="${PKCS12_PASSPHRASE}"\
+		-v `pwd`/cert/${PKCS12_FILENAME}:/certificate.p12 \
 		-t \
 		-d kedu/snx-vpn
 
