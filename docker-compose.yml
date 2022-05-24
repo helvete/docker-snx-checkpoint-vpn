@@ -1,0 +1,22 @@
+version: '3.5'
+services:
+  snx-vpn:
+    cap_add:
+      - ALL
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: "no"
+    environment:
+      SNX_SERVER: "${VPN_HOST}"
+      SNX_PASSWORD: "${PKCS12_PASSPHRASE}"
+    volumes:
+      - /lib/modules:/lib/modules
+      - ./cert/${PKCS12_FILENAME}:/certificate.p12
+    networks:
+      - snx-vpn-network
+    container_name: "snx-vpn"
+networks:
+  snx-vpn-network:
+    external: false
+    name: snx-vpn-network

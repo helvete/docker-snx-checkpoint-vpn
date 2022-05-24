@@ -49,4 +49,4 @@ expect "SNX - connected."
 interact
 EOF
 
-/bin/bash
+tail -f
