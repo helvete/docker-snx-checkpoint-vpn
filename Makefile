@@ -1,14 +1,13 @@
 #!/usr/bin/make -f
 include .env
 
-main: date run
+main: date start
 
-run: drop createimg addroute
+start: removecontainer createimg addroute
 
-drop:
-	(docker container stop snx-vpn && docker container rm snx-vpn) || true
+stop: delroute removecontainer
 
-stop: delroute drop
+restart: stop start
 
 createimg:
 	COMPOSE_DOCKER_CLI_BUILD=1 docker-compose up --build --force-recreate -d
@@ -21,6 +20,9 @@ delroute: containerip
 
 containerip:
 	$(eval SNX_DOCKER_IP=$(shell docker inspect --format '{{range .NetworkSettings.Networks }}{{.IPAddress}}{{end}}' snx-vpn))
+
+removecontainer:
+	(docker container inspect snx-vpn > /dev/null 2>&1 && docker container rm --force snx-vpn) || true
 
 date:
 	@date
