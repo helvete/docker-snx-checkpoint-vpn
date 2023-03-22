@@ -5,7 +5,6 @@ BASIC_BASE64=<base64-basic-auth-header-val>
 
 while true
 do
-    #response_code=$(curl -I -X GET --insecure --header "authorization: Basic ${BASIC_BASE64}" https://10.76.72.150:8181/api/ece/e24-ods/v1/pod?xid=D0000002 2>/dev/null |grep HTTP | awk '{print $2}')
     response_code=$(curl -I -X GET --insecure --header "authorization: Basic ${BASIC_BASE64}" --connect-timeout 2 --silent --write-out '%{http_code}' --output /dev/null https://10.76.72.150:8181/api/ece/e24-ods/v1/pod?xid=D0000002)
     if [[ $(grep 'Icon=gcr-key' $PANEL_CONF) ]]; then
         if [[ $response_code -ne 200 ]]; then
